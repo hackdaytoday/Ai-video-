@@ -13,16 +13,22 @@ jobs:
       - name: Pobierz kod
         uses: actions/checkout@v3
 
-      - - name: Dodaj install.sh i spakuj ZIP
-  run: |
-    cp install.sh ./install.sh
-    zip -r ai-video.zip . -x "*.git*"
+      - name: Sprawdź zawartość repo
+        run: ls -la
+
+      - name: Dodaj install.sh i spakuj ZIP
+        run: |
+          chmod +x install.sh
+          tar -czvf hello-world.tar.gz .
+
+      - name: Sprawdź, czy ZIP został poprawnie utworzony
+        run: ls -lah hello-world.tar.gz
 
       - name: Prześlij ZIP jako release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GH_PAT }}
           tag: latest
-          name: "AI Video - Nowa wersja"
-          artifacts: "ai-video.zip"
+          name: "Hello World - Nowa wersja"
+          artifacts: "hello-world.tar.gz"
           body: "Automatycznie wygenerowany plik ZIP z najnowszym kodem."
