@@ -13,8 +13,10 @@ jobs:
       - name: Pobierz kod
         uses: actions/checkout@v3
 
-      - name: Spakuj kod do ZIP
-        run: zip -r ai-video.zip . -x "*.git*"
+      - - name: Dodaj install.sh i spakuj ZIP
+  run: |
+    cp install.sh ./install.sh
+    zip -r ai-video.zip . -x "*.git*"
 
       - name: Prześlij ZIP jako release
         uses: ncipollo/release-action@v1
