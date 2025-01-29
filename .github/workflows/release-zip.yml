@@ -19,7 +19,7 @@ jobs:
       - name: Dodaj install.sh i spakuj ZIP
         run: |
           chmod +x install.sh
-          tar -czvf hello-world.tar.gz .
+          tar -czvf hello-world.tar.gz . --exclude=".git" --exclude=".github/workflows"
 
       - name: Sprawdź, czy ZIP został poprawnie utworzony
         run: ls -lah hello-world.tar.gz
