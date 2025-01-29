@@ -1,0 +1,27 @@
+name: Auto Commit
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Dodaj testowy plik
+        run: echo "Automatyczny commit działa!" > auto-commit.txt
+
+      - name: Commit i push zmian
+        run: |
+          git config --global user.name "GitHubBot"
+          git config --global user.email "bot@example.com"
+          git add auto-commit.txt
+          git commit -m "Automatyczny commit testowy"
+          git push
