@@ -3,7 +3,7 @@ name: Build ZIP and Publish
 on:
   push:
     branches:
-      - main  # Możesz zmienić na inną gałąź
+      - main
 
 jobs:
   build:
@@ -12,11 +12,22 @@ jobs:
       - name: Pobierz kod
         uses: actions/checkout@v3
 
-      - name: Spakuj kod do ZIP
-        run: zip -r ai-video.zip . -x "*.git*"
+      - name: Utwórz katalog na pliki
+        run: mkdir -p release
 
-      - name: Udostępnij ZIP jako artefakt
+      - name: Spakuj całą zawartość repozytorium do ZIP
+        run: zip -r release/ai-video.zip . -x ".git/*"
+
+      - name: Zapisz ZIP jako artefakt
         uses: actions/upload-artifact@v3
         with:
           name: ai-video
-          path: ai-video.zip
+          path: release/ai-video.zip
+
+      - name: Opcjonalnie – Utwórz GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          files: release/ai-video.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
