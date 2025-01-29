@@ -1,0 +1,22 @@
+name: Build ZIP and Publish
+
+on:
+  push:
+    branches:
+      - main  # Możesz zmienić na inną gałąź
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v3
+
+      - name: Spakuj kod do ZIP
+        run: zip -r ai-video.zip . -x "*.git*"
+
+      - name: Udostępnij ZIP jako artefakt
+        uses: actions/upload-artifact@v3
+        with:
+          name: ai-video
+          path: ai-video.zip
