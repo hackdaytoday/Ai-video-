@@ -1,0 +1,26 @@
+name: Create ZIP and Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v3
+
+      - name: Spakuj kod do ZIP
+        run: zip -r ai-video.zip . -x "*.git*"
+
+      - name: Prześlij ZIP jako release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GH_PAT }}
+          tag: latest
+          name: "AI Video - Nowa wersja"
+          artifacts: "ai-video.zip"
+          body: "Automatycznie wygenerowany plik ZIP z najnowszym kodem."
